@@ -1,0 +1,5 @@
+<agm-map [zoom]="zoom" [latitude]="center[0]" [longitude]="center[1]"  [styles]="styleMap">
+
+   <app-state-bus *ngFor="let bus of selectedBuses" [positions]="bus.positions"></app-state-bus>
+
+</agm-map>

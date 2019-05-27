@@ -1,0 +1,7 @@
+<angular2-multiselect
+    [data]="dropdownList" 
+    [(ngModel)]="selectedBuses" 
+    [settings]="dropdownSettings" 
+    (onSelect)="onBusSelect($event)" 
+    (onDeSelect)="OnBusDeSelect($event)">
+</angular2-multiselect>

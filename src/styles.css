@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+    background-color: rgb(218, 218, 218);
+    overflow: hidden;
+}
+
+.pure-checkbox input[type=checkbox]+label:after {
+    border-color: rgb(25, 118, 210)  !important;
+}
+
+.selected-list .c-list .c-token .c-remove svg {
+    fill: red !important;
+}
+
+agm-map {
+    height: 100vh;
+}
+
+.scroll{
+    overflow-y: scroll;
+    height: stretch;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
+}
+
+.bold{
+    font-weight:bold;
+}
+.inline{
+    display:inline-block;
+}
+
+.marginBottom{
+    margin-bottom: 5px;
+}
+
+.marginLeft{
+    margin-left: 5px;
+}
+
+.color{
+    margin-top: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 50px;
+    height: 15px;
+}
+
+.pointer{
+    cursor: pointer;
+    user-select: none;
+}
