@@ -1,43 +1,47 @@
-<div class="marginBottom" *ngFor="let bus of selectedBuses">
+<div *ngFor="let bus of buses" class="margin-bottom">
+  <input type="checkbox" id="{{bus.busCode}}" [checked]="bus.checked" (change)="busChanged(bus)" />
+  <label class="bold" htmlFor="{{bus.busCode}}">Line {{bus.busLine}}</label>
 
-  <div class="bold inline">{{bus.info.name}} line {{bus.info.busLine}}</div>
-  <div class="color inline" [style.background-color]="bus.info.color"></div>
+  <div *ngIf="bus.checked">
+    <div>{{bus.name}} <div class="color inline" [style.background-color]="bus.color"></div>
+    </div>
 
-  <div *ngIf="!bus.visibility" class="inline pointer" (click)="changeVisibility(bus)">▲</div>
-  <div *ngIf="bus.visibility" class="inline pointer" (click)="changeVisibility(bus)">▼</div>
+    <p>VAT: {{bus.VAT}}</p>
 
-  <div *ngIf="bus.visibility" class="marginLeft">
-    <p>VAT: {{bus.info.VAT}}</p>
+    <p style="margin: 0">Headquarters: </p>
+    <p>{{bus.headquarters[0]}} , {{bus.headquarters[1]}}</p>
 
-    <p style="margin: 0">Position headquarters: </p>
-    <p>{{bus.info.headquarters[0]}} , {{bus.info.headquarters[1]}}</p>
-
-    <div *ngIf="bus.info.countsPassengers; else elsecountsp">
-      <p style="margin: 0">Passenger count sensor: YES</p>
-      <p>Number on board: {{bus.positions[bus.positions.length -1].passengers}}</p>
+    <div *ngIf="bus.countsPassengers; else elsecountsp">
+      <p style="margin: 0" *ngIf="bus.positions.length > 0">
+        Number on board: {{bus.positions[bus.positions.length -1].passengers}}
+      </p>
+      <p>Passenger count sensor: YES</p>
     </div>
 
     <ng-template #elsecountsp>
       <p>Passenger count sensor: NO</p>
     </ng-template>
 
-    <p style="margin: 0">Last Position: </p>
-    <p>{{bus.positions[bus.positions.length -1].latlng[0]}}, {{bus.positions[bus.positions.length -1].latlng[1]}}</p>
+    <div *ngIf="bus.positions.length > 0">
+      <p style="margin: 0">Last Position: </p>
+      <p>{{bus.positions[bus.positions.length -1].latlng[0]}}, {{bus.positions[bus.positions.length -1].latlng[1]}}
+      </p>
 
-    <p style="margin: 0">Time of last position: </p>
-    <p>{{time(bus.positions[bus.positions.length -1].time)}}</p>
+      <p style="margin: 0">Time of last position: </p>
+      <p>{{time(bus.positions[bus.positions.length -1].time)}}</p>
 
-    <p style="margin: 0">Stops:</p>
-    <div *ngFor="let p of bus.positions">
-      <div *ngIf="p.doorisopen;">
-        <hr/>
-        <p style="margin: 0">Position: </p>
-        <p>{{p.latlng[0]}}, {{p.latlng[1]}}</p>
-        <p style="margin: 0">Time of position:</p>
-        <p>{{time(p.time)}}</p>
-        <p *ngIf="bus.info.countsPassengers;">Number on board: {{p.passengers}}</p>
+      <!------------------- STOPS -------------------->
+      <p style="margin: 0">Stops:</p>
+      <div *ngFor="let stop of bus.positions">
+        <div *ngIf="stop.doorisopen;">
+          <p>Position: {{stop.latlng[0]}}, {{stop.latlng[1]}}</p>
+          <p>Time: {{time(stop.time)}}</p>
+          <p *ngIf="stop.passengers > 0">Number on board: {{stop.passengers}}</p>
+          <hr />
+        </div>
       </div>
     </div>
+
   </div>
 
 </div>

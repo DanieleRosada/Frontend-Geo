@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MapComponent implements OnInit {
   
-  @Input() selectedBuses;
+  @Input() buses;
   center: Array<number> = [45.951288, 12.631917];
   zoom: number = 10;
   styleMap = [

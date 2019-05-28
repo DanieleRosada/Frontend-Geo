@@ -2,23 +2,27 @@
 body{
     background-color: rgb(218, 218, 218);
     overflow: hidden;
+    font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial,  sans-serif;
 }
 
 .pure-checkbox input[type=checkbox]+label:after {
     border-color: rgb(25, 118, 210)  !important;
 }
 
+p{
+    margin-bottom: 10px;
+}
 .selected-list .c-list .c-token .c-remove svg {
     fill: red !important;
 }
 
-agm-map {
-    height: 100vh;
+.scroll{
+    max-height: 100vh;
+    overflow-y: scroll;
 }
 
-.scroll{
-    overflow-y: scroll;
-    height: stretch;
+agm-map {
+    height : 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -26,22 +30,26 @@ agm-map {
     background: transparent; 
 }
 
-.bold{
+.bold {
     font-weight:bold;
 }
-.inline{
+.inline {
     display:inline-block;
 }
 
-.marginBottom{
+.margin-bottom {
     margin-bottom: 5px;
 }
 
-.marginLeft{
+.margin-top {
+    margin-top: 5px;
+}
+
+.margin-left {
     margin-left: 5px;
 }
 
-.color{
+.color {
     margin-top: 4px;
     margin-left: 10px;
     margin-right: 10px;
@@ -49,7 +57,92 @@ agm-map {
     height: 15px;
 }
 
-.pointer{
+.pointer {
     cursor: pointer;
     user-select: none;
+}
+
+.container-flex {
+    display: flex;
+    margin-left: 3px;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+
+}
+
+.flex {
+    flex: 1;
+}
+
+.center {
+    text-align: center;
+}
+
+/* checkbox */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 1.25em; height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+  content: '\2713\0020';
+  position: absolute;
+  top: .15em; left: .22em;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: black;
+  transition: all .2s;
+  font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', Arial;
+}
+
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[type="checkbox"]:disabled:not(:checked) + label:before,
+[type="checkbox"]:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+[type="checkbox"]:disabled:checked + label:after {
+  color: black;
+}
+[type="checkbox"]:disabled + label {
+  color: #aaa;
+}
+
+label:hover:before {
+  border: 2px solid black !important;
 }

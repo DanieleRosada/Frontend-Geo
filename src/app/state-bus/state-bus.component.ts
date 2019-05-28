@@ -8,13 +8,23 @@ import { calcPossibleSecurityContexts } from '@angular/compiler/src/template_par
 })
 export class StateBusComponent implements OnInit {
   @Input() positions;
-  url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FE7569"
+  @Input() color;
+ 
   constructor() { }
 
   ngOnInit() {
   }
 
-  color(color) {
-    return this.url + color.replace("#", "");;
+  getStop() {
+    //return this.url + this.color.replace("#", "");;
+  }
+
+  getRace() {
+    let  url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
+    return url + this.color.replace("#", "");;
+  }
+
+  getLast() {
+    //return this.url + this.color.replace("#", "");;
   }
 }
