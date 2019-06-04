@@ -17,6 +17,12 @@ export class InfoBusComponent implements OnInit {
 
   ngOnInit() {
     this.loadBusesMenu();
+
+    this.socket.on('data', (data) => {
+      console.log(data);
+      let target = this.buses.findIndex(b => b.busCode == data.buscode);
+      this.buses[target].positions.push(data); 
+    });
   }
 
   time(time) {
@@ -30,13 +36,13 @@ export class InfoBusComponent implements OnInit {
         res.forEach(b => {
           bus.positions.push(b);
         });
-        this.socket.on(bus.busCode, (msg: any) => {
-            console.log(msg);
-        });
       });
+      bus.positions.sort(p => p.timestamp);
+      this.socket.emit('join', { code: bus.buscode });
     }
     else {
       bus.positions = [];
+      this.socket.emit('leave', { code: bus.buscode });
     }
   }
 

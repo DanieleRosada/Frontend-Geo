@@ -9,22 +9,24 @@ import { calcPossibleSecurityContexts } from '@angular/compiler/src/template_par
 export class StateBusComponent implements OnInit {
   @Input() positions;
   @Input() color;
- 
+
   constructor() { }
 
   ngOnInit() {
   }
 
   getStop() {
-    //return this.url + this.color.replace("#", "");;
+    let color = this.color.replace('#', '');
+    return "https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=S|" + color;
   }
 
   getRace() {
-    let  url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"
-    return url + this.color.replace("#", "");;
+    let color = this.color.replace('#', '');
+    return "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color;
   }
 
   getLast() {
-    //return this.url + this.color.replace("#", "");;
+    let color = this.color.replace('#', '');
+    return "https://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld=pin_star|+|" + color + "|000000|" + color;
   }
 }

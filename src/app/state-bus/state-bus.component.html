@@ -1,20 +1,27 @@
-<template *ngFor="let p of positions; let i = index">
+<agm-polyline [strokeColor]="color">
+    <template *ngFor="let p of positions; let i = index">
         <agm-marker *ngIf="p.doorisopen && i != positions.length - 1"
             [latitude]="p.latlng[0]" 
             [longitude]="p.latlng[1]" 
-            [label]="p.time + p.passengers">
+            [iconUrl]="getStop()">
         </agm-marker>
 
         <agm-marker  *ngIf="!p.doorisopen && i != positions.length - 1"
             [latitude]="p.latlng[0]" 
             [longitude]="p.latlng[1]" 
-            [label]="p.time + p.passengers"
             [iconUrl]="getRace()">
         </agm-marker>
-</template>
+
+        
+        <agm-polyline-point [latitude]="p.latlng[0]" [longitude]="p.latlng[1]"></agm-polyline-point>
+    </template>
+</agm-polyline>
 
 <agm-marker *ngIf="positions.length > 0"
         [latitude]="positions[positions.length-1].latlng[0]" 
         [longitude]="positions[positions.length-1].latlng[1]" 
-        [label]="positions[positions.length-1].time">
+        [iconUrl]="getLast()">
 </agm-marker>
+
+
+
