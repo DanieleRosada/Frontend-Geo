@@ -21,7 +21,7 @@ export class InfoBusComponent implements OnInit {
     this.socket.on('data', (data) => {
       console.log(data);
       let target = this.buses.findIndex(b => b.busCode == data.buscode);
-      this.buses[target].positions.push(data); 
+      this.buses[target].positions.push(data);
     });
   }
 
@@ -38,11 +38,11 @@ export class InfoBusComponent implements OnInit {
         });
       });
       bus.positions.sort(p => p.timestamp);
-      this.socket.emit('join', { code: bus.buscode });
+      this.socket.emit('join', { code: bus.busCode });
     }
     else {
       bus.positions = [];
-      this.socket.emit('leave', { code: bus.buscode });
+      this.socket.emit('leave', { code: bus.busCode });
     }
   }
 

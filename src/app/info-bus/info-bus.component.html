@@ -1,3 +1,4 @@
+<h1>Buses control</h1>
 <div *ngFor="let bus of buses" class="margin-bottom">
   <input type="checkbox" id="{{bus.busCode}}" [checked]="bus.checked" (change)="busChanged(bus)" />
   <label class="bold" htmlFor="{{bus.busCode}}">Line {{bus.busLine}}</label>
