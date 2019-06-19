@@ -4,9 +4,8 @@
 /dist
 /tmp
 /out-tsc
+/src/environments
 package-lock.json
-#keys
-/interface/keys.ts
 # Only exists if Bazel was run
 /bazel-out
 
@@ -47,3 +46,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+

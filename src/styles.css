@@ -1,148 +1,166 @@
-/* You can add global styles to this file, and also import other style files */
-body{
-    background-color: rgb(218, 218, 218);
-    overflow: hidden;
-    font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial,  sans-serif;
+body {
+  background-image: url('./image/world.jpg');
+  overflow: hidden;
 }
 
-.pure-checkbox input[type=checkbox]+label:after {
-    border-color: rgb(25, 118, 210)  !important;
-}
-
-p{
-    margin-bottom: 10px;
-}
-.selected-list .c-list .c-token .c-remove svg {
-    fill: red !important;
-}
-
-.scroll{
-    max-height: 100vh;
-    overflow-y: scroll;
+h1, h2, h3, h4, h5, h6, p, div {
+  font-weight: 300;
 }
 
 agm-map {
-    height : 100vh;
+  height: 100vh;
+}
+
+.margin {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.scroll {
+  width: 100%;
+  position: absolute;
+  height: 100vh;
+  overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; 
+  width: 0px;
+  background: transparent;
 }
 
 .bold {
-    font-weight:bold;
-}
-.inline {
-    display:inline-block;
+  font-weight: bold;
 }
 
-.margin-bottom {
-    margin-bottom: 5px;
-}
-
-.margin-top {
-    margin-top: 5px;
-}
-
-.margin-left {
-    margin-left: 5px;
+.inline{
+  display: inline-block;
 }
 
 .color {
-    margin-top: 4px;
-    margin-left: 10px;
-    margin-right: 10px;
-    width: 50px;
-    height: 15px;
+  margin-top: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 50px;
+  height: 15px;
 }
 
 .pointer {
-    cursor: pointer;
-    user-select: none;
-}
-
-.container-flex {
-    display: flex;
-    margin-left: 3px;
-}
-
-.row {
-    flex-direction: row;
-}
-
-.column {
-    flex-direction: column;
-
-}
-
-.flex {
-    flex: 1;
-}
-
-.center {
-    text-align: center;
-}
-
-/* checkbox */
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-  position: absolute;
-  left: -9999px;
-}
-[type="checkbox"]:not(:checked) + label,
-[type="checkbox"]:checked + label {
-  position: relative;
-  padding-left: 1.95em;
   cursor: pointer;
 }
 
-[type="checkbox"]:not(:checked) + label:before,
-[type="checkbox"]:checked + label:before {
-  content: '';
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: .75rem;
+}
+
+.card-style {
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-style .card-title {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+.card-style .card-body {
+  padding: 2rem;
+}
+
+.form-style {
+  width: 100%;
+}
+
+.btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group input {
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group>input, .form-label-group>label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+}
+
+.form-label-group>label {
   position: absolute;
-  left: 0; top: 0;
-  width: 1.25em; height: 1.25em;
-  border: 2px solid #ccc;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  line-height: 1.5;
+  color: #495057;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
 }
 
-[type="checkbox"]:not(:checked) + label:after,
-[type="checkbox"]:checked + label:after {
-  content: '\2713\0020';
-  position: absolute;
-  top: .15em; left: .22em;
-  font-size: 1.3em;
-  line-height: 0.8;
-  color: black;
-  transition: all .2s;
-  font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', Arial;
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
 }
 
-[type="checkbox"]:not(:checked) + label:after {
-  opacity: 0;
-  transform: scale(0);
-}
-[type="checkbox"]:checked + label:after {
-  opacity: 1;
-  transform: scale(1);
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
 }
 
-[type="checkbox"]:disabled:not(:checked) + label:before,
-[type="checkbox"]:disabled:checked + label:before {
-  box-shadow: none;
-  border-color: #bbb;
-  background-color: #ddd;
-}
-[type="checkbox"]:disabled:checked + label:after {
-  color: black;
-}
-[type="checkbox"]:disabled + label {
-  color: #aaa;
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
 }
 
-label:hover:before {
-  border: 2px solid black !important;
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
+}
+
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+select{
+  border: 1px solid transparent;
+  border-radius: 2rem !important;
+}
+
+select:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.ngx-datepicker-position-bottom-left {
+  z-index: 1;
+
 }

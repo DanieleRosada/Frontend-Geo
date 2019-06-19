@@ -1,48 +1,62 @@
-<h1>Buses control</h1>
-<div *ngFor="let bus of buses" class="margin-bottom">
-  <input type="checkbox" id="{{bus.busCode}}" [checked]="bus.checked" (change)="busChanged(bus)" />
-  <label class="bold" htmlFor="{{bus.busCode}}">Line {{bus.busLine}}</label>
+<div class="card card-style my-5">
+  <div class="card-body">
 
-  <div *ngIf="bus.checked">
-    <div>{{bus.name}} <div class="color inline" [style.background-color]="bus.color"></div>
+    <h1 class="card-title text-center" style="margin-bottom: 10px;">Buses control</h1>
+
+    <ng-datepicker [(ngModel)]="date" (ngModelChange)="dateChanged()" [options]="options" position="bottom-left" style="text-align: center"></ng-datepicker>
+
+    <div class="row text-center" style="display: block; margin-bottom: 10px;">
+      <button class="col-3 btn btn-primary text-uppercase margin" (click)="redirectSigUp()">Users</button>
+      <button class="col-4 btn btn-primary text-uppercase margin">Companies</button>
+      <button class="col-3 btn btn-primary text-uppercase margin">Buses</button>
     </div>
 
-    <p>VAT: {{bus.VAT}}</p>
-
-    <p style="margin: 0">Headquarters: </p>
-    <p>{{bus.headquarters[0]}} , {{bus.headquarters[1]}}</p>
-
-    <div *ngIf="bus.countsPassengers; else elsecountsp">
-      <p style="margin: 0" *ngIf="bus.positions.length > 0">
-        Number on board: {{bus.positions[bus.positions.length -1].passengers}}
-      </p>
-      <p>Passenger count sensor: YES</p>
-    </div>
-
-    <ng-template #elsecountsp>
-      <p>Passenger count sensor: NO</p>
-    </ng-template>
-
-    <div *ngIf="bus.positions.length > 0">
-      <p style="margin: 0">Last Position: </p>
-      <p>{{bus.positions[bus.positions.length -1].latlng[0]}}, {{bus.positions[bus.positions.length -1].latlng[1]}}
-      </p>
-
-      <p style="margin: 0">Time of last position: </p>
-      <p>{{time(bus.positions[bus.positions.length -1].time)}}</p>
-
-      <!------------------- STOPS -------------------->
-      <p style="margin: 0">Stops:</p>
-      <div *ngFor="let stop of bus.positions">
-        <div *ngIf="stop.doorisopen;">
-          <p>Position: {{stop.latlng[0]}}, {{stop.latlng[1]}}</p>
-          <p>Time: {{time(stop.time)}}</p>
-          <p *ngIf="stop.passengers > 0">Number on board: {{stop.passengers}}</p>
-          <hr />
-        </div>
+    <div *ngFor="let bus of buses">
+      <div class="custom-control custom-checkbox mb-3">
+        <input type="checkbox" class="custom-control-input unselectable" id="{{bus.busCode}}" [checked]="bus.checked"
+          (change)="busChanged(bus)" />
+        <label class="custom-control-label bold" htmlFor="{{bus.busCode}}">Line {{bus.busLine}}</label>
       </div>
+
+      <div *ngIf="bus.checked">
+        <div>{{bus.name}} <div class="color inline" [style.background-color]="bus.color"></div>
+        </div>
+        <p style="margin: 0">VAT: {{bus.VAT}}</p>
+        <p style="margin: 0">Headquarters: {{bus.headquarters[0]}} , {{bus.headquarters[1]}}</p>
+
+        <div *ngIf="bus.countsPassengers; else elsecountsp">
+          <p style="margin: 0" *ngIf="bus.positions.length > 0">
+              Passengers on board: {{bus.positions[bus.positions.length -1].passengers}}
+          </p>
+          <p>Passenger count sensor: YES</p>
+        </div>
+
+        <ng-template #elsecountsp>
+          <p>Passenger count sensor: NO</p>
+        </ng-template>
+
+        <div *ngIf="bus.positions.length > 0; else zeroposition">
+          <p style="margin: 0">Last Position: {{bus.positions[bus.positions.length -1].latlng[0]}}, {{bus.positions[bus.positions.length -1].latlng[1]}}</p>
+          <p>Time of last position: {{time(bus.positions[bus.positions.length -1].time)}}</p>
+
+
+          <p class="bold" style="margin: 0">Stops:</p>
+          <div *ngFor="let stop of bus.positions">
+            <div *ngIf="stop.doorisopen;">
+              <p style="margin: 0">Position: {{stop.latlng[0]}}, {{stop.latlng[1]}}</p>
+              <p style="margin: 0">Time: {{time(stop.time)}}</p>
+              <p style="margin: 0" *ngIf="stop.passengers > 0">Passengers on board: {{stop.passengers}}</p>
+              <hr />
+            </div>
+          </div>
+        </div>
+
+        <ng-template #zeroposition>
+          <p class="bold">Today there are no positions </p>
+        </ng-template>
+
+      </div>
+
     </div>
-
   </div>
-
 </div>
