@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="card card-style my-5">
+    <div class="card-body">
+      <div class="row">
+
+        <div class="col-md-7">
+          <i (click)="setCreate()" class="fa fa-plus pointer" style="color: #218838; margin-bottom: 20px;"></i>
+          <i (click)="setUpdate()" class="fa fa-pencil pointer" style="color: #0069D9"></i>
+          <i (click)="setDelete()" class="fa fa-close pointer" style="color: #C82333"></i>
+          <app-grid [rowData]="buses" [columnDefs]="columnDefs" (gridApi)="gridApi = $event"></app-grid>
+        </div>
+
+
+        <div class="col-md-5">
+          <h5 *ngIf="operation == 'create'" class="card-title text-center">Create bus</h5>
+          <h5 *ngIf="operation == 'update'" class="card-title text-center">Update bus</h5>
+          <h5 *ngIf="operation == 'delete'" class="card-title text-center">Delete bus</h5>
+
+          <form class="form-style" [formGroup]="busForm" (ngSubmit)="action()">
+            <div class="form-label-group">
+              <input type="text" formControlName="line" id="line" class="form-control" placeholder="Line"
+                [ngClass]="{ 'is-invalid': submitted && f.line.errors }" />
+              <label for="line">Line</label>
+              <div *ngIf="submitted && f.line.errors" class="invalid-feedback">
+                <div *ngIf="f.line.errors.required">Line is required</div>
+              </div>
+            </div>
+
+            <div class="form-label-group">
+              <input type="text" formControlName="color" id="color" class="form-control" placeholder="Color"
+                [ngClass]="{ 'is-invalid': submitted && f.color.errors }" />
+              <label for="color">Color</label>
+              <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
+                <div *ngIf="f.color.errors.required">Color is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-label-group">
+              <div class="row">
+                <div class="col-5">Company: </div>
+                <select class="form-control col-7" formControlName="company" id="company" name="company" required>
+                  <option *ngFor="let company of companies" value="{{company.VAT}}">{{company.name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="custom-control custom-checkbox mb-3">
+              <input type="checkbox" class="custom-control-input unselectable" formControlName="countsPassengers"
+                id="countsPassengers">
+              <label class="custom-control-label" for="countsPassengers">Counts passenger sensor</label>
+            </div>
+
+            <button *ngIf="!loading && operation == 'create'"
+              class="btn btn-lg btn-success btn-block text-uppercase">CREATE COMPANY</button>
+            <button *ngIf="!loading && operation == 'update'"
+              class="btn btn-lg btn-primary btn-block text-uppercase">UPDATE COMPANY</button>
+            <button *ngIf="!loading && operation == 'delete'"
+              class="btn btn-lg btn-danger btn-block text-uppercase">DELETE COMPANY</button>
+            <img *ngIf="loading" style="display: block; margin-left: auto; margin-right: auto;"
+              src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+            <br />
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            <div *ngIf="success" class="alert alert-success">{{success}}</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

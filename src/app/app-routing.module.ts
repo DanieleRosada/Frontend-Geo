@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth/_guards';
+import { Role } from './auth/_models';
 
 import { LoginComponent } from './login/login.component';
-import { SigupComponent } from './sigup/sigup.component';
 import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './users/users.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { BusesComponent } from './buses/buses.component';
 
 const routes: Routes = [
   {
@@ -17,12 +20,23 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'sigup',
-    component: SigupComponent,
-    canActivate: [AuthGuard]
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.owner, Role.administartor] }
   },
-
-  // otherwise redirect to home
+  {
+    path: 'companies',
+    component: CompaniesComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.owner, Role.administartor] }
+  },
+  {
+    path: 'buses',
+    component: BusesComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.owner, Role.administartor] }
+  },
   { path: '**', redirectTo: '' }
 ];;
 

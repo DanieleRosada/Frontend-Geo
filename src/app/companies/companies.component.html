@@ -1,0 +1,77 @@
+<div class="container"  style="overflow-y: scroll; height: 100vh">
+  <div class="card card-style my-5">
+    <div class="card-body">
+      <div class="row">
+
+        <div class="col-md-7">
+          <i (click)="setCreate()" class="fa fa-plus pointer" style="color: #218838; margin-bottom: 20px;"></i>
+          <i (click)="setUpdate()" class="fa fa-pencil pointer" style="color: #0069D9"></i>
+          <i (click)="setDelete()" class="fa fa-close pointer" style="color: #C82333"></i>
+          <app-grid [rowData]="companies" [columnDefs]="columnDefs" (gridApi)="gridApi = $event"></app-grid>
+        </div>
+
+
+
+        <div class="col-md-5">
+          <h5 *ngIf="operation == 'create'" class="card-title text-center">Create company</h5>
+          <h5 *ngIf="operation == 'update'" class="card-title text-center">Update company</h5>
+          <h5 *ngIf="operation == 'delete'" class="card-title text-center">Delete company</h5>
+
+          <form class="form-style" [formGroup]="companyForm" (ngSubmit)="action()">
+            <div class="form-label-group">
+              <input type="text" formControlName="VAT" id="VAT" class="form-control" placeholder="VAT"
+                [ngClass]="{ 'is-invalid': submitted && f.VAT.errors }" />
+              <label for="VAT">VAT</label>
+              <div *ngIf="submitted && f.VAT.errors" class="invalid-feedback">
+                <div *ngIf="f.VAT.errors.required">VAT is required</div>
+              </div>
+            </div>
+
+            <div class="form-label-group">
+              <input type="text" formControlName="name" id="name" class="form-control" placeholder="Name"
+                [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+              <label for="name">Name</label>
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+              </div>
+            </div>
+
+            <div class="form-label-group">
+              <input type="text" formControlName="latitude" id="latitude" class="form-control" placeholder="Latitude"
+                [ngClass]="{ 'is-invalid': submitted && f.latitude.errors }" />
+              <label for="latitude">Latitude</label>
+              <div *ngIf="submitted && f.latitude.errors" class="invalid-feedback">
+                <div *ngIf="f.latitude.errors.required">Latitude is required</div>
+              </div>
+            </div>
+
+            <div class="form-label-group">
+              <input type="text" formControlName="longitude" id="longitude" class="form-control" placeholder="Longitude"
+                [ngClass]="{ 'is-invalid': submitted && f.longitude.errors }" />
+              <label for="longitude">Longitude</label>
+              <div *ngIf="submitted && f.longitude.errors" class="invalid-feedback">
+                <div *ngIf="f.longitude.errors.required">Longitude is required</div>
+              </div>
+            </div>
+
+            <button *ngIf="!loading && operation == 'create'"
+              class="btn btn-lg btn-success btn-block text-uppercase">CREATE
+              COMPANY</button>
+            <button *ngIf="!loading && operation == 'update'"
+              class="btn btn-lg btn-primary btn-block text-uppercase">UPDATE
+              COMPANY</button>
+            <button *ngIf="!loading && operation == 'delete'"
+              class="btn btn-lg btn-danger btn-block text-uppercase">DELETE
+              COMPANY</button>
+            <img *ngIf="loading" class="spinner"
+              src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+            <br />
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            <div *ngIf="success" class="alert alert-success">{{success}}</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

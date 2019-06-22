@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { User } from '../auth/_models';
-import { AuthenticationService } from '../auth/_services';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +8,10 @@ import { AuthenticationService } from '../auth/_services';
 
 export class HomeComponent implements OnInit {
   buses = [];
-  openMenu = false;
+  openMenu = true;
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
 
   changeOpenMenu(){

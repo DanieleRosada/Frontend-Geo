@@ -5,7 +5,6 @@ import * as io from 'socket.io-client';
 import { DatepickerOptions } from 'ng2-datepicker';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-info-bus',
   templateUrl: './info-bus.component.html',
@@ -13,7 +12,8 @@ import { Router } from '@angular/router';
 })
 export class InfoBusComponent implements OnInit {
   @Input() buses = [];
-  date = moment(new Date().setHours(0, 0, 0, 0));
+  date = moment();
+  socket: SocketIOClient.Socket;
 
   options: DatepickerOptions = {
     minYear: 2010,
@@ -25,43 +25,21 @@ export class InfoBusComponent implements OnInit {
     addClass: 'pointer'
   };
 
-  socket: SocketIOClient.Socket;
   constructor(private router: Router, private storage: StorageService) {
-    this.socket = io.connect('http://127.0.0.1:5432');
+    this.socket = io.connect('http://127.0.0.1:5432', {query: {token: this.storage.getToken()}});
   }
 
   ngOnInit() {
     this.loadBusesMenu();
-
-    this.socket.on('data', (data) => {
-      console.log(data);
-      let target = this.buses.findIndex(b => b.busCode == data.buscode);
-      this.buses[target].positions.push(data);
-    });
+    this.reciveNewBusData();
   }
 
   time(time) {
     return moment(time).format("HH:mm:ss");
   }
 
-  busChanged(bus) {
-    bus.checked = !bus.checked;
-    if (bus.checked) {
-      this.storage.selectedBus(bus.busCode, this.date).then(res => {
-        res.forEach(b => {
-          bus.positions.push(b);
-        });
-      });
-      this.socket.emit('join', { code: bus.busCode });
-    }
-    else {
-      bus.positions = [];
-      this.socket.emit('leave', { code: bus.busCode });
-    }
-  }
-
   loadBusesMenu() {
-    this.storage.busesMenu().then(res => {
+    this.storage.selectBuses().then(res => {
       res.forEach(bus => {
         bus.checked = false;
         bus.positions = [];
@@ -70,14 +48,22 @@ export class InfoBusComponent implements OnInit {
     });
   }
 
-  redirectSigUp() {
-    this.router.navigate(['/sigup']);
+  busChecked(bus) {
+    bus.checked = !bus.checked;
+    if (bus.checked) {
+      this.storage.selectedBus(bus.busCode, this.date).then(res => bus.positions = res);
+      this.socket.emit('join', { code: bus.busCode });
+    }
+    else {
+      bus.positions = [];
+      this.socket.emit('leave', { code: bus.busCode });
+    }
   }
 
   dateChanged() {
     this.buses.forEach(bus => {
       if (bus.checked) {
-        if (this.date.isSame(new Date(), 'd')) this.socket.emit('join', { code: bus.busCode });
+        if (moment(this.date).isSame(new Date(), 'd')) this.socket.emit('join', { code: bus.busCode });
         else this.socket.emit('leave', { code: bus.busCode });
         this.storage.selectedBus(bus.busCode, this.date).then(res => {
           bus.positions = [];
@@ -88,4 +74,13 @@ export class InfoBusComponent implements OnInit {
       }
     });
   }
+
+  reciveNewBusData(){
+    this.socket.on('data', (data) => {
+      console.log("data")
+      let target = this.buses.findIndex(b => b.busCode == data.buscode);
+      this.buses[target].positions.push(data);
+    });
+  }
+
 }

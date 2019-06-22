@@ -17,8 +17,6 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
 
-  public Formdata: any = {};
-
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService, private _cookieService: CookieService) { }
 
   ngOnInit() {
