@@ -1,5 +1,5 @@
 <agm-map [zoom]="zoom" [latitude]="center[0]" [longitude]="center[1]" [styles]="styleMap">
 
-   <app-state-bus *ngFor="let bus of buses" [positions]="bus.positions" [color]="bus.color"></app-state-bus>
+   <app-draw-bus *ngFor="let bus of buses" [positions]="bus.positions" [color]="bus.color"></app-draw-bus>
 
 </agm-map>

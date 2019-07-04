@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StateBusComponent } from './state-bus.component';
+import { DrawBusComponent } from './draw-bus.component';
 
-describe('StateBusComponent', () => {
-  let component: StateBusComponent;
-  let fixture: ComponentFixture<StateBusComponent>;
+describe('DrawBusComponent', () => {
+  let component: DrawBusComponent;
+  let fixture: ComponentFixture<DrawBusComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StateBusComponent ]
+      declarations: [ DrawBusComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StateBusComponent);
+    fixture = TestBed.createComponent(DrawBusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

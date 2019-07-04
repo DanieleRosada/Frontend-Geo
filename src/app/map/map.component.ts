@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Interfaces } from 'src/interface';
 
 @Component({
   selector: 'app-map',
@@ -6,11 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-  
-  @Input() buses;
+
+  @Input() buses: Array<Interfaces.BusesMenu> = [];
   center: Array<number> = [45.951288, 12.631917];
   zoom: number = 10;
-  styleMap = [
+  styleMap: Array<any> = [
     {
       "stylers": [
         {

@@ -1,12 +1,25 @@
-<div class="container">
+<div class="container scroll">
   <div class="card card-style my-5">
     <div class="card-body">
       <div class="row">
 
         <div class="col-md-7">
-          <i (click)="setCreate()" class="fa fa-plus pointer" style="color: #218838; margin-bottom: 20px;"></i>
-          <i (click)="setUpdate()" class="fa fa-pencil pointer" style="color: #0069D9"></i>
-          <i (click)="setDelete()" class="fa fa-close pointer" style="color: #C82333"></i>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/"><i class="fa fa-arrow-left pointer" style="color: grey;"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"><i (click)="setCreate()" class="fa fa-plus pointer" style="color: #218838;"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"><i (click)="setUpdate()" class="fa fa-pencil pointer"></i></a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link"><i (click)="setDelete()" class="fa fa-close pointer" style="color: #C82333"></i></a>
+            </li>
+          </ul>
+
           <app-grid [rowData]="buses" [columnDefs]="columnDefs" (gridApi)="gridApi = $event"></app-grid>
         </div>
 
@@ -51,13 +64,15 @@
               <label class="custom-control-label" for="countsPassengers">Counts passenger sensor</label>
             </div>
 
+            <input type="hidden" formControlName="busCode">
+
             <button *ngIf="!loading && operation == 'create'"
               class="btn btn-lg btn-success btn-block text-uppercase">CREATE COMPANY</button>
             <button *ngIf="!loading && operation == 'update'"
               class="btn btn-lg btn-primary btn-block text-uppercase">UPDATE COMPANY</button>
             <button *ngIf="!loading && operation == 'delete'"
               class="btn btn-lg btn-danger btn-block text-uppercase">DELETE COMPANY</button>
-            <img *ngIf="loading" style="display: block; margin-left: auto; margin-right: auto;"
+            <img *ngIf="loading" class="spinner"
               src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
 
             <br />

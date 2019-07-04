@@ -11,19 +11,12 @@ agm-map {
   height: 100vh;
 }
 
-.margin {
-  margin-left: 3px;
-  margin-right: 3px;
-}
-
 .scroll {
-  width: 100%;
-  position: absolute;
-  height: 100vh;
   overflow-y: scroll;
+  height: 100vh;
 }
 
-::-webkit-scrollbar {
+.scroll::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
@@ -37,10 +30,8 @@ agm-map {
 }
 
 .color {
-  margin-top: 4px;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 50px;
+  border: solid 2px black;
+  width: 100%;
   height: 15px;
 }
 
@@ -171,3 +162,12 @@ select:focus {
   margin-right: auto;
 }
 
+.menu-button{
+  position: absolute;
+  left: 20px;
+  top: 70px;
+}
+
+i{
+  color: #007BFF;
+}

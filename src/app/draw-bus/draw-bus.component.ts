@@ -1,19 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { calcPossibleSecurityContexts } from '@angular/compiler/src/template_parser/binding_parser';
+import { Interfaces } from 'src/interface';
 
 @Component({
-  selector: 'app-state-bus',
-  templateUrl: './state-bus.component.html',
-  styleUrls: ['./state-bus.component.css']
+  selector: 'app-draw-bus',
+  templateUrl: './draw-bus.component.html',
+  styleUrls: ['./draw-bus.component.css']
 })
-export class StateBusComponent implements OnInit {
-  @Input() positions;
-  @Input() color;
+export class DrawBusComponent implements OnInit {
+  @Input() positions : Array<Interfaces.Data> = [];
+  @Input() color : string = "#FFFFFF";
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   getStop() {
     let color = this.color.replace('#', '');

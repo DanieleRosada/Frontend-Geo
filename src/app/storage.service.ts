@@ -8,14 +8,9 @@ export class StorageService {
 
   constructor() { }
 
-  getToken(){
+  getToken() {
     let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     return currentUser.token;
-  }
-
-  getRole(){
-    let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    return currentUser.role;
   }
 
   async selectedBus(busCode, date) {
@@ -24,8 +19,7 @@ export class StorageService {
       method: "POST",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
   async getRoles() {
@@ -35,7 +29,7 @@ export class StorageService {
     }).then(res => res.json());
   }
 
-  //users
+  //USER
   async listUsers() {
     return await fetch(environment.apiUrl + '/users', {
       method: "GET",
@@ -59,8 +53,7 @@ export class StorageService {
       method: "PUT",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
   async deleteUser(user) {
@@ -69,11 +62,10 @@ export class StorageService {
       method: "DELETE",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
-  //company
+  //COMPANY
   async selectCompanies() {
     return await fetch(environment.apiUrl + '/companies', {
       method: "GET",
@@ -81,39 +73,37 @@ export class StorageService {
     }).then(res => res.json());
   }
 
-  async createCompany(company : Interfaces.Company) {
+  async createCompany(company: Interfaces.Company) {
     company.headquarters = [company.latitude, company.longitude];
     let form = JSON.stringify({ "company": company });
     return await fetch(environment.apiUrl + '/companies', {
       method: "POST",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
-  async updateCompany(company : Interfaces.Company, previousVAT) {
+  async updateCompany(company: Interfaces.Company) {
     company.headquarters = [company.latitude, company.longitude];
-    company.previousVAT = previousVAT;
     let form = JSON.stringify({ "company": company });
     return await fetch(environment.apiUrl + '/companies', {
       method: "PUT",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
-  async deleteCompany(company : Interfaces.Company) {
+  async deleteCompany(company: Interfaces.Company) {
     let form = JSON.stringify({ "company": company });
     return await fetch(environment.apiUrl + '/companies', {
       method: "DELETE",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
+
+  // BUS
   async selectBuses() {
     return await fetch(environment.apiUrl + '/buses', {
       method: "GET",
@@ -121,33 +111,30 @@ export class StorageService {
     }).then(res => res.json());
   }
 
-  async createBus(bus : Interfaces.Bus) {
+  async createBus(bus: Interfaces.Bus) {
     let form = JSON.stringify({ "bus": bus });
     return await fetch(environment.apiUrl + '/buses', {
       method: "POST",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
-  async updateBus(bus : Interfaces.Bus) {
+  async updateBus(bus: Interfaces.Bus) {
     let form = JSON.stringify({ "bus": bus });
     return await fetch(environment.apiUrl + '/buses', {
       method: "PUT",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 
-  async deleteBus(bus : Interfaces.Bus) {
+  async deleteBus(bus: Interfaces.Bus) {
     let form = JSON.stringify({ "bus": bus });
     return await fetch(environment.apiUrl + '/buses', {
       method: "DELETE",
       body: form,
       headers: { 'current-user': sessionStorage.getItem('currentUser'), 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   }
 }

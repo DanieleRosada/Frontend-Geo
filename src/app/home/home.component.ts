@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Interfaces } from 'src/interface';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class HomeComponent implements OnInit {
-  buses = [];
-  openMenu = true;
+  buses : Array<Interfaces.BusesMenu> = [];
+  openMenu : boolean = true;
   constructor() { }
 
   ngOnInit() {}
-
 
   changeOpenMenu(){
     this.openMenu = !this.openMenu;

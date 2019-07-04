@@ -4,22 +4,23 @@
     <h1 class="card-title text-center">Buses control</h1>
 
     <ul class="nav justify-content-center">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authenticationService.currentUserValue.role != role.employee">
         <a class="nav-link " routerLink="/users">Users</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authenticationService.currentUserValue.role != role.employee">
         <a class="nav-link" routerLink="/companies">Companies</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authenticationService.currentUserValue.role != role.employee">
         <a class="nav-link" routerLink="/buses">Buses</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="/login"><i class="fa fa-sign-out pointer" style="color: #007BFF;"></i></a>
+        <a class="nav-link" routerLink="/login"><i class="fa fa-sign-out pointer"></i></a>
       </li>
     </ul>
 
-    <ng-datepicker [(ngModel)]="date" (ngModelChange)="dateChanged()" [options]="options" position="bottom-left" style="text-align: center"></ng-datepicker>
+    <ng-datepicker [(ngModel)]="date" (ngModelChange)="dateChanged()" [options]="options" position="bottom-left"
+      style="text-align: center"></ng-datepicker>
 
 
 
@@ -27,19 +28,15 @@
       <div class="custom-control custom-checkbox mb-3">
         <input type="checkbox" class="custom-control-input unselectable" id="{{bus.busCode}}" [checked]="bus.checked"
           (change)="busChecked(bus)" />
-        <label class="custom-control-label bold" htmlFor="{{bus.busCode}}">Line {{bus.line}}</label>
+        <label class="custom-control-label bold" htmlFor="{{bus.busCode}}">{{bus.name}} Line {{bus.line}}</label>
       </div>
 
       <div *ngIf="bus.checked">
-        <div>{{bus.name}} <div class="color inline" [style.background-color]="bus.color"></div>
-        </div>
+        <div class="color" [style.background-color]="bus.color"></div>
         <p style="margin: 0">VAT: {{bus.VAT}}</p>
         <p style="margin: 0">Headquarters: {{bus.headquarters[0]}} , {{bus.headquarters[1]}}</p>
 
         <div *ngIf="bus.countsPassengers; else elsecountsp">
-          <p style="margin: 0" *ngIf="bus.positions.length > 0">
-            Passengers on board: {{bus.positions[bus.positions.length -1].passengers}}
-          </p>
           <p>Passenger count sensor: YES</p>
         </div>
 
@@ -54,13 +51,16 @@
 
 
           <p class="bold" style="margin: 0">Stops:</p>
-          <div *ngFor="let stop of bus.positions">
-            <div *ngIf="stop.doorisopen;">
-              <p style="margin: 0">Position: {{stop.latlng[0]}}, {{stop.latlng[1]}}</p>
-              <p style="margin: 0">Time: {{time(stop.time)}}</p>
-              <p style="margin: 0" *ngIf="stop.passengers > 0">Passengers on board: {{stop.passengers}}</p>
-              <hr />
+          <div *ngFor="let p of getStops(bus)">
+
+            <p style="margin: 0">Position: {{p.latlng[0]}}, {{p.latlng[1]}}</p>
+            <p style="margin: 0">Start Time: {{time(p.time)}}</p>
+            <div *ngIf="p.stop">
+              <p style="margin: 0">End Time: {{time(p.stop.time)}}</p>
+              <p style="margin: 0" *ngIf="p.stop.passengers >= 0">Passengers on board: {{p.stop.passengers}}</p>
             </div>
+            <hr/>
+
           </div>
         </div>
 

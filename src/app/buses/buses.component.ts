@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../storage.service';
 import { Interfaces } from '../../interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buses',
@@ -9,12 +10,11 @@ import { Interfaces } from '../../interface';
   styleUrls: ['./buses.component.css']
 })
 export class BusesComponent implements OnInit {
-
   busForm: FormGroup;
-  submitted: Boolean = false;
-  error: String = "";
-  success: String = "";
-  operation: String = "";
+  submitted: boolean = false;
+  error: string = "";
+  success: string = "";
+  operation: string = "";
   buses: Array<Interfaces.Bus> = [];
   companies: Array<Interfaces.Company> = [];
 
@@ -26,17 +26,19 @@ export class BusesComponent implements OnInit {
     { headerName: 'Company', field: 'name' }
   ];
 
-  constructor(private formBuilder: FormBuilder, private storage: StorageService) { }
+  constructor(private formBuilder: FormBuilder, private storage: StorageService, private router: Router) { }
 
   ngOnInit() {
     this.busForm = this.formBuilder.group({
       line: ['', Validators.required],
       color: ['', Validators.required],
       company: ['', Validators.required],
+      busCode: [''],
       countsPassengers: [false]
     });
     this.getCompanies();
     this.getBuses();
+
     this.setCreate();
   }
 
@@ -55,22 +57,21 @@ export class BusesComponent implements OnInit {
 
   setCreate() {
     this.operation = "create";
-    this.f.line.setValue('');
-    this.f.color.setValue('');
-    this.f.company.setValue('');
-    this.f.countsPassengers.setValue(false);
+    this.busForm.reset();
+    if (this.companies.length > 0) this.f.company.setValue(this.companies[0].VAT)
   }
 
   setUpdate() {
     let bus = this.gridApi.getSelectedRows();
     if (bus.length > 0) {
-      console.log(bus)
       this.reset();
+      bus = bus[0]
       this.operation = "update";
-      this.f.line.setValue(bus[0].line);
-      this.f.color.setValue(bus[0].color);
-      this.f.company.setValue(bus[0].company);
-      this.f.countsPassengers.setValue(bus[0].countsPassengers);
+      this.f.busCode.setValue(bus.busCode);
+      this.f.line.setValue(bus.line);
+      this.f.color.setValue(bus.color);
+      this.f.company.setValue(bus.company);
+      this.f.countsPassengers.setValue(bus.countsPassengers);
     }
   }
 
@@ -78,54 +79,36 @@ export class BusesComponent implements OnInit {
     let bus = this.gridApi.getSelectedRows();
     if (bus.length > 0) {
       this.reset();
+      bus = bus[0];
       this.operation = "delete";
-      this.f.line.setValue(bus[0].line);
-      this.f.color.setValue(bus[0].color);
-      this.f.company.setValue(bus[0].company);
-      this.f.countsPassengers.setValue(bus[0].countsPassengers);
+      this.f.busCode.setValue(bus.busCode);
+      this.f.line.setValue(bus.line);
+      this.f.color.setValue(bus.color);
+      this.f.company.setValue(bus.company);
+      this.f.countsPassengers.setValue(bus.countsPassengers);
     }
   }
 
   create() {
-    this.storage.createBus(this.busForm.value).then(res => {
-      this.submitted = false;
-      if (res.status != 200) this.error = res.message;
-      else {
-        this.getBuses();
-        this.success = res.message;
-      }
-    });
+    this.storage.createBus(this.busForm.value).then(res => this.endCall(res));
   }
 
   update() {
-    this.storage.updateBus(this.busForm.value).then(res => {
-      this.submitted = false;
-      if (res.status != 200) this.error = res.message;
-      else {
-        this.getBuses();
-        this.success = res.message;
-      }
-    });
+    this.storage.updateBus(this.busForm.value).then(res => this.endCall(res));
   }
 
   delete() {
-    this.storage.deleteBus(this.busForm.value).then(res => {
-      this.submitted = false;
-      if (res.status != 200) this.error = res.message;
-      else {
-        this.getBuses();
-        this.success = res.message;
-      }
-    });
+    this.storage.deleteBus(this.busForm.value).then(res => this.endCall(res));
   }
 
 
   action() {
-    if (this.busForm.invalid) return;
-    if (this.isHexColor(this.f.color.value)) return this.error = "Insert Hex color";
-
-    this.submitted = true;
     this.reset();
+    this.submitted = true;
+
+    if (this.busForm.invalid) return;
+    if (!this.isHexColor(this.f.color.value)) return this.error = "Insert Hex color";
+    if (!this.isNumeric(this.f.line.value)) return this.error = "Insert numbers for line"
 
     if (this.operation == "create") this.create();
     else if (this.operation == "update") this.update();
@@ -139,6 +122,20 @@ export class BusesComponent implements OnInit {
 
   isHexColor(color) {
     return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+  }
+
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+  endCall(res) {
+    this.submitted = false;
+    if (res.status == 403) return this.router.navigate(['/login']);
+    if (res.status != 200) return this.error = res.message;
+
+    this.busForm.reset();
+    this.getBuses();
+    this.success = res.message;
   }
 }
 

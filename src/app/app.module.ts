@@ -15,28 +15,28 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
-import { StateBusComponent } from './state-bus/state-bus.component';
-import { InfoBusComponent } from './info-bus/info-bus.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { BusesComponent } from './buses/buses.component';
 import { GridComponent } from './grid/grid.component';
+import { MenuComponent } from './menu/menu.component';
+import { DrawBusComponent } from './draw-bus/draw-bus.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    StateBusComponent,
-    InfoBusComponent,
     LoginComponent,
     HomeComponent,
     UsersComponent,
     CompaniesComponent,
     BusesComponent,
-    GridComponent
+    GridComponent,
+    MenuComponent,
+    DrawBusComponent
   ],
   imports: [
     BrowserModule,

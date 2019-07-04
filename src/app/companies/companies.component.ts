@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../storage.service';
 import { Interfaces } from '../../interface';
+import { AuthenticationService } from '../auth/_services';
+import { Router } from '@angular/router';
+import { Role } from '../auth/_models';
 
 @Component({
   selector: 'app-companies',
@@ -10,12 +13,12 @@ import { Interfaces } from '../../interface';
 })
 export class CompaniesComponent implements OnInit {
   companyForm: FormGroup;
-  submitted: Boolean = false;
-  error: String = "";
-  success: String = "";
-  operation: String = "";
+  submitted: boolean = false;
+  error: string = "";
+  success: string = "";
+  operation: string = "";
   companies: Array<Interfaces.Company> = [];
-  previousVAT = "";
+  role = Role;
 
   gridApi;
   columnDefs = [
@@ -24,43 +27,42 @@ export class CompaniesComponent implements OnInit {
     { headerName: 'Headquarters', field: 'headquarters' }
   ];
 
-  constructor(private formBuilder: FormBuilder, private storage: StorageService) { }
+  constructor(private formBuilder: FormBuilder, private storage: StorageService, private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
     this.companyForm = this.formBuilder.group({
       VAT: ['', Validators.required],
       name: ['', Validators.required],
       latitude: ['', Validators.required],
-      longitude: ['', Validators.required]
+      longitude: ['', Validators.required],
+      previousVAT: ['']
     });
     this.getCompanies();
     this.setCreate();
   }
 
-  get f() { return this.companyForm.controls; }
-
   getCompanies() {
     this.storage.selectCompanies().then(res => this.companies = res);
   }
 
+  get f() { return this.companyForm.controls; }
+
   setCreate() {
     this.operation = "create";
-    this.f.VAT.setValue('');
-    this.f.name.setValue('');
-    this.f.latitude.setValue('');
-    this.f.longitude.setValue('');
+    this.companyForm.reset();
   }
 
   setUpdate() {
     let company = this.gridApi.getSelectedRows();
     if (company.length > 0) {
       this.reset();
+      company = company[0];
       this.operation = "update";
-      this.previousVAT = company[0].VAT;
-      this.f.VAT.setValue(company[0].VAT);
-      this.f.name.setValue(company[0].name);
-      this.f.latitude.setValue(company[0].headquarters[0]);
-      this.f.longitude.setValue(company[0].headquarters[1]);
+      this.f.previousVAT.setValue(company.VAT);
+      this.f.VAT.setValue(company.VAT);
+      this.f.name.setValue(company.name);
+      this.f.latitude.setValue(company.headquarters[0]);
+      this.f.longitude.setValue(company.headquarters[1]);
     }
   }
 
@@ -68,54 +70,34 @@ export class CompaniesComponent implements OnInit {
     let company = this.gridApi.getSelectedRows();
     if (company.length > 0) {
       this.reset();
+      company = company[0];
       this.operation = "delete";
-      this.f.VAT.setValue(company[0].VAT);
-      this.f.name.setValue(company[0].name);
-      this.f.latitude.setValue(company[0].headquarters[0]);
-      this.f.longitude.setValue(company[0].headquarters[1]);
+      this.f.VAT.setValue(company.VAT);
+      this.f.name.setValue(company.name);
+      this.f.latitude.setValue(company.headquarters[0]);
+      this.f.longitude.setValue(company.headquarters[1]);
     }
   }
 
   create() {
-    this.storage.createCompany(this.companyForm.value).then(res => {
-      this.submitted = false;
-      if (res.status != 200) this.error = res.message;
-      else {
-        this.getCompanies();
-        this.success = res.message;
-      }
-    });
+    this.storage.createCompany(this.companyForm.value).then(res => this.endCall(res));
   }
 
   update() {
-    this.storage.updateCompany(this.companyForm.value, this.previousVAT).then(res => {
-      this.submitted = false;
-      if (res.status != 200) this.error = res.message;
-      else {
-        this.getCompanies();
-        this.success = res.message;
-      }
-    });
+    this.storage.updateCompany(this.companyForm.value).then(res => this.endCall(res));
   }
 
   delete() {
-    this.storage.deleteCompany(this.companyForm.value).then(res => {
-      this.submitted = false;
-      if (res.status != 200) this.error = res.message;
-      else {
-        this.getCompanies();
-        this.success = res.message;
-      }
-    });
+    this.storage.deleteCompany(this.companyForm.value).then(res => this.endCall(res));
   }
 
 
   action() {
+    this.reset();
+    this.submitted = true;
+
     if (this.companyForm.invalid) return;
     if (!this.isNumeric(this.f.latitude.value) || !this.isNumeric(this.f.longitude.value)) return this.error = "Insert numbers not letters, use dot not comma";
-
-    this.submitted = true;
-    this.reset();
 
     if (this.operation == "create") this.create();
     else if (this.operation == "update") this.update();
@@ -123,13 +105,22 @@ export class CompaniesComponent implements OnInit {
   }
 
   reset() {
-    this.previousVAT = "";
     this.error = "";
     this.success = "";
   }
 
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+  endCall(res) {
+    this.submitted = false;
+    if (res.status == 403) return this.router.navigate(['/login']);
+    if (res.status != 200) return this.error = res.message;
+
+    this.companyForm.reset();
+    this.getCompanies();
+    this.success = res.message;
   }
 
 }

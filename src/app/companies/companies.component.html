@@ -1,12 +1,25 @@
-<div class="container"  style="overflow-y: scroll; height: 100vh">
+<div class="container scroll">
   <div class="card card-style my-5">
     <div class="card-body">
       <div class="row">
 
         <div class="col-md-7">
-          <i (click)="setCreate()" class="fa fa-plus pointer" style="color: #218838; margin-bottom: 20px;"></i>
-          <i (click)="setUpdate()" class="fa fa-pencil pointer" style="color: #0069D9"></i>
-          <i (click)="setDelete()" class="fa fa-close pointer" style="color: #C82333"></i>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/"><i class="fa fa-arrow-left pointer" style="color: grey;"></i></a>
+            </li>
+            <li class="nav-item" *ngIf="authenticationService.currentUserValue.role == role.owner">
+              <a class="nav-link"><i (click)="setCreate()" class="fa fa-plus pointer" style="color: #218838;"></i></a>
+            </li>
+            <li class="nav-item" *ngIf="authenticationService.currentUserValue.role != role.employee">
+              <a class="nav-link"><i (click)="setUpdate()" class="fa fa-pencil pointer"></i></a>
+            </li>
+
+            <li class="nav-item" *ngIf="authenticationService.currentUserValue.role == role.owner">
+              <a class="nav-link"><i (click)="setDelete()" class="fa fa-close pointer" style="color: #C82333"></i></a>
+            </li>
+          </ul>
+
           <app-grid [rowData]="companies" [columnDefs]="columnDefs" (gridApi)="gridApi = $event"></app-grid>
         </div>
 
@@ -53,6 +66,8 @@
                 <div *ngIf="f.longitude.errors.required">Longitude is required</div>
               </div>
             </div>
+
+            <input type="hidden" formControlName="previousVAT">
 
             <button *ngIf="!loading && operation == 'create'"
               class="btn btn-lg btn-success btn-block text-uppercase">CREATE

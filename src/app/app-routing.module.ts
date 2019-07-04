@@ -23,19 +23,19 @@ const routes: Routes = [
     path: 'users',
     component: UsersComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.owner, Role.administartor] }
+    data: { roles: [Role.owner, Role.admin] }
   },
   {
     path: 'companies',
     component: CompaniesComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.owner, Role.administartor] }
+    data: { roles: [Role.owner, Role.admin] }
   },
   {
     path: 'buses',
     component: BusesComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.owner, Role.administartor] }
+    data: { roles: [Role.owner, Role.admin] }
   },
   { path: '**', redirectTo: '' }
 ];;
